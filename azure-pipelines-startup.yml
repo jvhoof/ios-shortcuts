@@ -1,0 +1,26 @@
+#
+# Runs Azure CLI in Azure Pipelines to start Azure VM's 
+# where the name of the VM starts with the query variable
+#
+# Author: Joeri Van Hoof
+#
+
+resources:
+- repo: self
+queue:
+  name: Hosted Ubuntu 1604
+
+steps:
+- task: AzureCLI@1
+  displayName: 'Azure CLI '
+  inputs:
+    azureSubscription: '$(AzureSubscription)'
+    scriptLocation: inlineScript
+    inlineScript: |
+      query="[?name.starts_with(@,'$1')].{id:id}"
+      echo "
+      ##############################################################################################################
+      #  Stopping VM's starting with the $1 string
+      ##############################################################################################################"
+      az vm start --ids $( az vm list --query "$query" --output tsv )
+    arguments: '$(Query)'
