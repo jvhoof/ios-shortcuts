@@ -20,7 +20,7 @@ steps:
       query="[?name.starts_with(@,'$1')].{id:id}"
       echo "
       ##############################################################################################################
-      #  Stopping VM's starting with the $1 string
+      #  Starting VM's starting with the '$1' string
       ##############################################################################################################"
       az vm start --ids $( az vm list --query "$query" --output tsv )
     arguments: '$(Query)'
