@@ -22,5 +22,6 @@ steps:
       ##############################################################################################################
       #  Starting VM's starting with the '$1' string
       ##############################################################################################################"
+      echo "az vm start --ids $( az vm list --query $query --output tsv )"
       az vm start --ids $( az vm list --query "$query" --output tsv )
     arguments: '$(Query)'
